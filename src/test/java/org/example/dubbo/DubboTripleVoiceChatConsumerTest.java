@@ -13,7 +13,8 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- */
+ *//*
+
 
 package org.example.dubbo;
 
@@ -39,7 +40,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-public class DubboTripleVoiceChatClient {
+public class DubboTripleVoiceChatConsumerTest {
     private static final AudioFormat.Encoding encoding = new AudioFormat.Encoding("PCM_SIGNED");
     private static final AudioFormat format = new AudioFormat(encoding, 8000, 16, 1, 2, 8000, false);//编码格式，采样率，每个样本的位数，声道，帧长（字节），帧数，是否按big-endian字节顺序存储
 
@@ -112,4 +113,4 @@ public class DubboTripleVoiceChatClient {
         }
     }
 
-}
+}*/

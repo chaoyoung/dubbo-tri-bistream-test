@@ -15,13 +15,14 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  *
- */
+ *//*
 
-package org.example.voicechat.client;
+
+package org.example.dubbo;
 
 import com.google.protobuf.ByteString;
-import org.example.voicechat.client.rpc.ReactorDubboVoiceChatGrpc;
-import org.example.voicechat.client.rpc.VoiceChatRequest;
+import org.example.dubbo.chat.ReactorDubboVoiceChatGrpc;
+import org.example.dubbo.chat.VoiceChatRequest;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import reactor.core.publisher.Flux;
 
@@ -31,11 +32,6 @@ public class ReactorDubboGrpcConsumer {
         ClassPathXmlApplicationContext context =
                 new ClassPathXmlApplicationContext("spring/reactor-dubbo-grpc-consumer.xml");
         context.start();
-
-        /**
-         * greeter sample
-         */
-        System.out.println("-------- Start simple unary call test -------- ");
         ReactorDubboVoiceChatGrpc.IReactorVoiceChat voiceChat = (ReactorDubboVoiceChatGrpc.IReactorVoiceChat) context.getBean("voiceChat");
 
         voiceChat
@@ -48,3 +44,4 @@ public class ReactorDubboGrpcConsumer {
         System.in.read();
     }
 }
+*/

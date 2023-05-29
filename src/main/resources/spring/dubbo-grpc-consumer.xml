@@ -23,10 +23,10 @@
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     <context:property-placeholder/>
 
-    <dubbo:application name="reactor-dubbo-grpc-consumer"/>
+    <dubbo:application name="dubbo-grpc-consumer"/>
 
-    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
+    <!--<dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>-->
 
-    <dubbo:reference scope="remote" id="voiceChat" interface="org.example.dubbo.chat.ReactorDubboVoiceChatGrpc$IReactorVoiceChat" protocol="grpc" proxy="nativestub"/>
+    <dubbo:reference scope="remote" id="voiceChat" interface="org.example.dubbo.chat.DubboVoiceChatGrpc$IVoiceChat" protocol="grpc" url="grpc://localhost:50051/org.example.dubbo.chat.VoiceChat"/>
 
 </beans>

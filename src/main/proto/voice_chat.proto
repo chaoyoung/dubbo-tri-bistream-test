@@ -1,46 +1,23 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "com.listenrobot.dm.rpc";
+option java_package = "org.example.dubbo.chat";
 option java_outer_classname = "VoiceChatProto";
 
-package com.baweiai.dm.chat;
+package org.example.dubbo.chat;
 
 service VoiceChat {
 
-  // 对话
   rpc chat(stream VoiceChatRequest) returns (stream VoiceChatResponse);
 
-  // 拉语音流
-  rpc pullVoice(PullVoiceRequest) returns (stream PullVoiceResponse);
-
 }
 
-// 语音对话请求
 message VoiceChatRequest {
-  string callId = 1; // 通话ID
-  string type = 2; // VOICE: 语音流, DTMF: 按键
-  bytes data = 3; // 数据
-  string templateCode = 4; // 话术编号
+  string callId = 1;
+  bytes data = 3;
 }
 
-// 语音对话响应
 message VoiceChatResponse {
-  string callId = 1; // 通话ID
-  string type = 2; // DO_NOTHING : 什么也不做, PULL_VOICE_STREAM : 拉语音流, CLEAR_VOICE_STREAM : 清理语音流, PAUSE_PLAY : 暂停播放, RESUME_PLAY : 恢复播放, PAUSE_SEND_VOICE_STREAM : 暂停发送语音流, RESUME_SEND_VOICE_STREAM : 恢复发送语音流
-  string data = 3; // PULL_VOICE_STREAM : SentenceMetadata JSON
-}
-
-// 拉语音流请求
-message PullVoiceRequest {
-  string callId = 1; // 通话ID
-  int32 sentence = 2; // 句子序列
-  string url = 3; // 句子URL
-}
-
-// 拉语音流响应
-message PullVoiceResponse {
-  string callId = 1; // 通话ID
-  int32 sentence = 2; // 句子序列
-  bytes data = 3; // 语音流
+  string callId = 1;
+  bytes data = 2;
 }

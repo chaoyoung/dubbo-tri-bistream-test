@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.example.voicechat.client;
+package org.example.dubbo.util;
 
 import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.server.ZooKeeperServerMain;

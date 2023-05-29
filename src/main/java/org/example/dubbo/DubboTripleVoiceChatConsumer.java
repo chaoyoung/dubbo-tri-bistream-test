@@ -35,7 +35,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-public class DubboTripleClient {
+public class DubboTripleVoiceChatConsumer {
 
     private static final ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(200, new NamedThreadFactory("chat-client-stream", false));
 
@@ -45,7 +45,7 @@ public class DubboTripleClient {
         ref.setInterface(VoiceChat.class);
         ref.setProtocol(CommonConstants.TRIPLE);
         ref.setProxy(CommonConstants.NATIVE_STUB);
-        ref.setUrl("grpc://localhost:50051/org.example.dubbo.chat.VoiceChat");
+//        ref.setUrl("grpc://localhost:50051/org.example.dubbo.chat.VoiceChat");
 
         ApplicationConfig applicationConfig = new ApplicationConfig("tri-stub-consumer");
         applicationConfig.setQosEnable(false);

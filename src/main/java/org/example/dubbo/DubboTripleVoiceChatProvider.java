@@ -27,13 +27,14 @@ import org.example.dubbo.chat.DubboTripleVoiceChatImpl;
 import org.example.dubbo.chat.VoiceChat;
 import org.example.dubbo.util.EmbeddedZooKeeper;
 
-public class DubboTripleServer {
+public class DubboTripleVoiceChatProvider {
 
     public static void main(String[] args) {
         new EmbeddedZooKeeper(2181, false).start();
         ServiceConfig<VoiceChat> service = new ServiceConfig<>();
         service.setInterface(VoiceChat.class);
         service.setRef(new DubboTripleVoiceChatImpl());
+        service.setPath("org.example.dubbo.chat.VoiceChat");
         ApplicationConfig applicationConfig = new ApplicationConfig("tri-stub-server");
         applicationConfig.setQosEnable(false);
         applicationConfig.setProtocol(CommonConstants.TRIPLE);
