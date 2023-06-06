@@ -27,6 +27,6 @@
 
     <!--<dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>-->
 
-    <dubbo:reference scope="remote" id="voiceChat" interface="org.example.dubbo.chat.ReactorDubboVoiceChatGrpc$IReactorVoiceChat" protocol="grpc" proxy="nativestub" url="grpc://localhost:50051/org.example.dubbo.chat.VoiceChat"/>
+    <dubbo:reference scope="remote" id="voiceChat" interface="org.example.dubbo.chat.ReactorDubboVoiceChatGrpc$IReactorVoiceChat" protocol="grpc" url="grpc://localhost:50051/org.example.dubbo.chat.VoiceChat"/>
 
 </beans>

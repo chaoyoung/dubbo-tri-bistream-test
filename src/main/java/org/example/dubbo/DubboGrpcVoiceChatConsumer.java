@@ -3,7 +3,6 @@ package org.example.dubbo;
 import com.google.protobuf.ByteString;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.utils.NamedThreadFactory;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
@@ -24,19 +23,15 @@ public class DubboGrpcVoiceChatConsumer {
     public static void main(String[] args) throws Exception {
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         ReferenceConfig<DubboVoiceChatGrpc.IVoiceChat> ref = new ReferenceConfig<>();
-        ref.setInterface(org.example.dubbo.chat.DubboVoiceChatGrpc.IVoiceChat.class);
+        ref.setInterface(DubboVoiceChatGrpc.IVoiceChat.class);
         ref.setProtocol("grpc");
         ref.setUrl("grpc://localhost:50051/org.example.dubbo.chat.VoiceChat");
+        ref.setTimeout(10000);
         ApplicationConfig applicationConfig = new ApplicationConfig("grpc-stub-consumer");
         applicationConfig.setQosEnable(false);
         applicationConfig.setProtocol("grpc");
         bootstrap.application(applicationConfig).reference(ref).start();
         DubboVoiceChatGrpc.IVoiceChat voiceChat = ref.get();
-
-        /*ClassPathXmlApplicationContext context =
-                new ClassPathXmlApplicationContext("spring/dubbo-grpc-consumer.xml");
-        context.start();
-        DubboVoiceChatGrpc.IVoiceChat voiceChat = (DubboVoiceChatGrpc.IVoiceChat) context.getBean("voiceChat");*/
 
         for (int i = 0; i < 200; i++) {
             StreamObserver<VoiceChatRequest> requestStreamObserver = voiceChat.chat(new SampleStreamObserver());
@@ -50,12 +45,13 @@ public class DubboGrpcVoiceChatConsumer {
 
     private static class SampleStreamObserver implements StreamObserver<VoiceChatResponse> {
         int n = 0;
+
         @Override
         public void onNext(VoiceChatResponse data) {
             n++;
-//            if (n % 10 == 0) {
+            if (n % 10 == 0) {
                 log.info("callId: {} : reply data size: {}", data.getCallId(), data.getData().size());
-//            }
+            }
         }
 
         @Override

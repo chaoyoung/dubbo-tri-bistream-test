@@ -1,4 +1,3 @@
-/*
 package org.example.dubbo.chat;
 
 import lombok.extern.slf4j.Slf4j;
@@ -12,4 +11,3 @@ public class ReactorDubboGrpcVoiceChatImpl extends ReactorDubboVoiceChatGrpc.Voi
         return request.map(req -> VoiceChatResponse.newBuilder().setData(req.getData()).build());
     }
 }
-*/

@@ -23,6 +23,7 @@ import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.common.utils.NamedThreadFactory;
 import org.apache.dubbo.config.ApplicationConfig;
+import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
@@ -40,17 +41,25 @@ public class DubboTripleVoiceChatConsumer {
     private static final ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(200, new NamedThreadFactory("chat-client-stream", false));
 
     public static void main(String[] args) throws Exception {
-        DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-        ReferenceConfig<VoiceChat> ref = new ReferenceConfig<>();
-        ref.setInterface(VoiceChat.class);
-        ref.setProtocol(CommonConstants.TRIPLE);
-        ref.setProxy(CommonConstants.NATIVE_STUB);
-//        ref.setUrl("grpc://localhost:50051/org.example.dubbo.chat.VoiceChat");
-
         ApplicationConfig applicationConfig = new ApplicationConfig("tri-stub-consumer");
         applicationConfig.setQosEnable(false);
-        applicationConfig.setProtocol(CommonConstants.TRIPLE);
-        bootstrap.application(applicationConfig).reference(ref).registry(new RegistryConfig("zookeeper://localhost:2181")).start();
+        applicationConfig.setProtocol("tri");
+        ProtocolConfig protocolConfig = new ProtocolConfig("tri");
+        protocolConfig.setSerialization("protobuf");
+
+        ReferenceConfig<VoiceChat> ref = new ReferenceConfig<>();
+        ref.setInterface(VoiceChat.class);
+        ref.setProtocol("tri");
+        ref.setProxy(CommonConstants.NATIVE_STUB);
+//        ref.setUrl("tri://localhost:50051/org.example.dubbo.chat.VoiceChat");
+
+        DubboBootstrap bootstrap = DubboBootstrap.getInstance();
+        bootstrap.application(applicationConfig)
+                .registry(new RegistryConfig("zookeeper://localhost:2181"))
+                .protocol(protocolConfig)
+                .reference(ref)
+                .start();
+
         VoiceChat voiceChat = ref.get();
         for (int i = 0; i < 200; i++) {
             StreamObserver<VoiceChatRequest> requestStreamObserver = voiceChat.chat(new SampleStreamObserver());

@@ -17,7 +17,6 @@
 
 package org.example.dubbo;
 
-import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
@@ -31,19 +30,25 @@ public class DubboTripleVoiceChatProvider {
 
     public static void main(String[] args) {
         new EmbeddedZooKeeper(2181, false).start();
+
+        ApplicationConfig applicationConfig = new ApplicationConfig("tri-stub-server");
+        applicationConfig.setQosEnable(false);
+        applicationConfig.setProtocol("tri");
+        ProtocolConfig protocolConfig = new ProtocolConfig("tri", 50051);
+        protocolConfig.setSerialization("protobuf");
+
         ServiceConfig<VoiceChat> service = new ServiceConfig<>();
         service.setInterface(VoiceChat.class);
         service.setRef(new DubboTripleVoiceChatImpl());
         service.setPath("org.example.dubbo.chat.VoiceChat");
-        ApplicationConfig applicationConfig = new ApplicationConfig("tri-stub-server");
-        applicationConfig.setQosEnable(false);
-        applicationConfig.setProtocol(CommonConstants.TRIPLE);
+
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(applicationConfig)
                 .registry(new RegistryConfig("zookeeper://localhost:2181"))
-                .protocol(new ProtocolConfig(CommonConstants.TRIPLE, 50051))
+                .protocol(protocolConfig)
                 .service(service)
                 .start();
+
         System.out.println("Dubbo triple streaming server started, port=" + 50051);
     }
 }
